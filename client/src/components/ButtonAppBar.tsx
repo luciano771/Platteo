@@ -1,6 +1,6 @@
 
 import React from "react";
-import { useNavigate, Link, useLocation } from "react-router-dom";
+import { useNavigate, Link, useLocation } from "react-router-dom"; 
 
 const ButtonAppBar: React.FC = () => {
   const navigate = useNavigate();
@@ -8,10 +8,10 @@ const ButtonAppBar: React.FC = () => {
 
   return (
     <nav className="flex items-center justify-between">
+      <img src="/logo.png" alt="Logo" width={100} />
       <Link to="/">
         <h1 className="text-white font-bold text-4xl my-4">Tu carta</h1>
-      </Link>
-
+      </Link> 
       {location.pathname === "/tasks/new" || location.pathname.includes('/tasks/') ? (
         <button 
           className="bg-yellow-400  text-black font-bold py-2 px-4 rounded-lg my-2 "
