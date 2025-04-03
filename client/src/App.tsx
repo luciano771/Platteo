@@ -1,19 +1,22 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import TaskForm from "./components/TaskForm";
-import TasksList from "./components/TasksList";
-import ButtonAppBar  from "./components/ButtonAppBar";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import AppLayout from "./components/navigation/AppLayout";
+
+import TaskForm from "./components/Menus/TaskForm";
+import TasksList from "./components/Menus/TasksList";
+import Dashboard from "./components/Dashboard/Dashboard";
 
 const App: React.FC = () => {
   return (
     <BrowserRouter>
-      <main className="container mx-auto px-20">
-        <ButtonAppBar />
+      <AppLayout>
         <Routes>
-          <Route index path="/" element={<TasksList />} />
+          <Route index path="/" element={<Dashboard />} />
+          <Route index path="/menus" element={<TasksList />} />
+
           <Route path="/tasks/new" element={<TaskForm />} />
           <Route path="/tasks/:id/edit" element={<TaskForm />} />
         </Routes>
-      </main>
+      </AppLayout>
     </BrowserRouter>
   );
 };

@@ -57,7 +57,7 @@ const TaskForm: React.FC = () => {
 
       await response.json();
       setLoading(false);
-      navigate("/");
+      navigate("/menus");
     } catch (error) {
       console.error(error);
     }
@@ -67,10 +67,10 @@ const TaskForm: React.FC = () => {
     setTask({ ...task, [e.target.name]: e.target.value });
 
   return (
-    <div className="h-[calc(100vh-64px)] flex flex-col items-center justify-center">
-      <form onSubmit={handleSubmit} className="w-2/5">
-        <h3 className="font-bold text-2xl my-3 text-white">
-          {params.id ? "Update Task" : "Create Task"}
+    <div className="max-w-xl mx-auto bg-white shadow-md p-6 rounded-md">
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <h3 className="font-bold text-2xl text-gray-800">
+          {params.id ? "Editar Menú" : "Crear Menú"}
         </h3>
         <input
           type="text"
