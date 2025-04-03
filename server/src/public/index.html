@@ -1,0 +1,296 @@
+ 
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="img/pestaña.png" type="image/png">
+    <title>TweetV</title>  
+
+
+
+    <link rel="stylesheet" href="PublicacionesAI.css">
+    <link rel="stylesheet" href="Modal.css">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+ </head>
+  <body>
+    <!-- Contenedores donde se crearán los divs -->
+    <div class="contenedor_principal"> 
+      <!--Modal--->  
+      <div id="myModal" class="modal">
+        <div class="modal-content">
+            <div class="relative h-10 w-full min-w-[200px]">
+                <br>
+                <!---text area-->
+                <div class="w-full max-w-xs mx-auto">
+                  <textarea id="inp" x-data="{
+                  resize () {
+                  $el.style.height = '0px';
+                  $el.style.height = $el.scrollHeight + 'px'
+                  }
+                  }"
+                  x-init="resize()"
+                  @input="resize()"
+                  type="text"
+                  placeholder="Ingresa tu publicacion..."
+                  class="flex w-full h-auto min-h-[150px] px-3 py-2 text-sm bg-white border rounded-md border-neutral-300 ring-offset-background placeholder:text-neutral-400 focus:border-neutral-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-neutral-400 disabled:cursor-not-allowed disabled:opacity-50"
+                  ></textarea>
+                  </div>
+                <!---text area-->
+                <br> 
+                <button id="button1"onclick="toggleModal()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Generar versiones</button>
+            </div>           
+        </div>
+      </div>
+ 
+      <!--Modal--->
+ 
+      <div class="contenedor_secundario"> 
+        <!--alerta-->
+        <div
+  role="alert"
+  class="relative flex w-full px-4 py-4 text-base text-white bg-blue-700 rounded-lg font-regular"
+  data-dismissible="alert"
+  id="myAlert" 
+>
+  <div class="mr-12">Se ha publicado en linkedin.</div>
+  <button
+    data-dismissible-target="alert"
+    class="!absolute top-3 right-3 h-8 max-h-[32px] w-8 max-w-[32px] select-none rounded-lg text-center align-middle font-sans text-xs font-medium uppercase text-white transition-all hover:bg-white/10 active:bg-white/30 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+    type="button"
+    id="toggleButton"  
+  >
+    <span class="absolute transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+        class="w-6 h-6"
+        stroke-width="2"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M6 18L18 6M6 6l12 12"
+        ></path>
+      </svg>
+    </span>
+  </button>
+</div>
+
+        <!--alerta-->
+        <div id="contenededor-spinner"><div id="posicion-spinner"><div id="spinner"></div></div></div>
+          <button id="button1"onclick="toggleModal()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Ingresa tu publicacion</button>
+          <div id="mi-div">
+            <div class="item" id="1">
+              <p>¡Inmerso en el mundo de la programación esta mañana! 🖥️💻 Completé un proyecto interesante en JavaScript, ¿alguien más trabajando en algo emocionante hoy? #DesarrolloDeSoftware</p>
+              <button class="share"><img src="./img/share.png" alt="Compartir en LinkedIn"></button>
+          </div>
+          <div class="item" id="2">
+              <p>¡Hola a todos! Hoy estoy explorando nuevos conceptos de inteligencia artificial. 🤖 ¿Alguien tiene recomendaciones para cursos o recursos sobre aprendizaje automático? #AI #AprendizajeAutomático</p>
+              <button class="share"><img src="./img/share.png" alt="Compartir en LinkedIn"></button>
+          </div>
+          <div class="item" id="3">
+              <p>¡Buen día, colegas desarrolladores! 💡 Descubrí un truco nuevo en Python que me ahorró mucho tiempo en mi proyecto actual. ¿Alguien quiere conocerlo? #Python #Programación</p>
+              <button class="share"><img src="./img/share.png" alt="Compartir en LinkedIn"></button>
+          </div>
+          <div class="item" id="4">
+              <p>¡Saludos a la comunidad de desarrolladores! 🌟 Trabajando en un desafío de codificación esta tarde, ¿alguien más disfruta de los retos de programación? #DesarrolloWeb #Challenge</p>
+              <button class="share"><img src="./img/share.png" alt="Compartir en LinkedIn"></button>
+          </div></div>
+      </div>
+  </div>
+  
+  <script>
+
+ document.getElementById('myAlert').style.display="none";
+  async function Versionar(mensaje) {
+  document.getElementById('contenededor-spinner').style.display = 'block';
+  var url = "https://tweetv.onrender.com/openai";
+  var data = { mensaje: mensaje };
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 60000);
+
+  await fetch(url, {
+    signal: controller.signal,
+    method: "POST",
+    body: JSON.stringify(data),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+    .then(response => response.json())
+    .then(data => {
+      document.getElementById('contenededor-spinner').style.display = 'none';
+       
+    
+      for (const key in data) {
+        const items = document.querySelectorAll('.item');
+        const ultimoElemento = items[items.length - 1];
+        ultimoID = parseInt(ultimoElemento.id);
+      
+        if (data.hasOwnProperty(key)) {
+          const bannerDiv = document.createElement('div');
+          bannerDiv.className = 'item';
+          bannerDiv.id = ultimoID + 1;
+ 
+          const textoElemento = document.createTextNode(data[key]);
+          bannerDiv.appendChild(textoElemento);
+
+          const shareButton = document.createElement('button');
+          shareButton.className = 'share'; // Utilizamos una clase en lugar de un ID
+          shareButton.innerHTML = '<img src="./img/share.png">';
+          bannerDiv.appendChild(shareButton);
+          
+          const bannerContainer = document.getElementById('mi-div');
+          bannerContainer.appendChild(bannerDiv);
+          }
+        }
+
+      })
+    .catch(error => {
+      console.error('Error:', error);
+      document.getElementById('contenededor-spinner').style.display = 'none';
+    });
+}
+
+    
+    
+      document.addEventListener('DOMContentLoaded', function() {
+          var modal = document.getElementById('myModal');
+          var mensaje = document.getElementById('inp').value.trim();
+          modal.style.display = 'none';
+      });
+    
+      function toggleModal() {
+          var modal = document.getElementById('myModal');
+          var mensaje = document.getElementById('inp').value.trim();  
+          if (modal.style.display === 'block') {
+              modal.style.display = 'none';
+              if(mensaje != ""){
+                Versionar(mensaje);
+              }
+          } else {
+              modal.style.display = 'block';
+          }
+      }
+
+    
+      window.onclick = function(event) {
+          var modal = document.getElementById('myModal');
+          if (event.target == modal) {
+            modal.style.display = 'none';
+            localStorage.setItem('modalOpened', 'false');
+          }
+      }
+    
+         document.addEventListener('keydown', function(event) {
+          var mensaje = document.getElementById('inp').value.trim();
+          var modal = document.getElementById('myModal');
+          // console.log(event.key); // Verifica la tecla presionada
+          // console.log(modal.style.display); // Verifica el estado de visualización del modal
+          if (event.key === 'Enter' && modal.style.display === 'block') {
+              console.log('Llamando a Versionar');
+              toggleModal();
+          }
+      });
+ 
+const itemsContainer = document.getElementById('mi-div');
+
+itemsContainer.addEventListener('click', async function(event) {
+    if (event.target.tagName === 'IMG' && event.target.parentElement.classList.contains('share')) {
+        const textoDiv = event.target.parentElement.parentElement.textContent.trim();
+        console.log(textoDiv);
+
+        const access_token = await cookie();
+        share(textoDiv, access_token);
+    }
+});
+
+
+
+      
+      async function cookie(){
+          let access_token = "";
+          const url = "https://tweetv.onrender.com/linkedin/cookie"
+          await fetch(url, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          })
+          .then(response => response.json())
+          .then(data => {
+            console.log(data);
+            access_token = data.accesstokenlinkedin;
+          })
+          .catch(error => {
+            console.error('Error:', error);
+            
+          });
+
+          return access_token;
+          
+      }
+
+
+
+
+       function share(contenido,access_token){
+        document.getElementById('contenededor-spinner').style.display = 'block';
+        const alertDiv = document.getElementById('myAlert');
+
+        const cookies = document.cookie;
+          if(!access_token){
+            window.location.href = 'https://tweetv.onrender.com/linkedin';
+            return
+          }
+          const mensaje = { "mensaje":  contenido };
+
+          fetch('https://tweetv.onrender.com/linkedin/share', {
+          method: "POST",
+          body: JSON.stringify(mensaje),
+          headers: {
+            "Content-Type": "application/json",
+          },
+          })
+          .then(response => response.json())
+          .then(data => {
+            console.log(data);
+            document.getElementById('contenededor-spinner').style.display = 'none';
+            alertDiv.style.display = 'block';
+            
+          })
+          .catch(error => {
+            console.error('Error:', error);
+            document.getElementById('contenededor-spinner').style.display = 'none';
+            alertDiv.style.display = 'none';
+          });
+      }
+
+
+      const alertDiv = document.getElementById('myAlert');
+      const toggleButton = document.getElementById('toggleButton');
+
+      toggleButton.addEventListener('click', function() {
+        if (alertDiv.style.display === 'none' || alertDiv.style.display === '') {
+          alertDiv.style.display = 'block';
+        } else {
+          alertDiv.style.display = 'none';
+        }
+      });
+          
+    
+        </script>
+        <!-- from node_modules -->
+<script src="node_modules/@material-tailwind/html@latest/scripts/dismissible.js"></script>
+ 
+<!-- from cdn -->
+<script src="https://unpkg.com/@material-tailwind/html@latest/scripts/dismissible.js"></script>
+</body>
+</html>
+ 
