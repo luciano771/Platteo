@@ -91,7 +91,7 @@ const TaskForm: React.FC = () => {
           value={task.description}
         />
         <div className="flex justify-between">
-          <Button handleMenu={() => handleDelete(params.id!)} texto={loading ? "Cargando..." : "Guardar"} /> 
+          <Button handleMenu={() => handleSubmit} texto={loading ? "Cargando..." : "Guardar"} /> 
           
           {params.id && (
             <Button handleMenu={() => handleDelete(params.id!)} texto="Eliminar" /> 

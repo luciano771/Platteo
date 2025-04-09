@@ -22,12 +22,18 @@ const TasksList: React.FC = () => {
   }, []);
 
   return (
-    <>
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
       {tasks.map((task) => (
         <TaskCard key={task.id} task={task} />
-      ))}
-    </>
+      ))} 
+    </div> 
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Earum recusandae sit reiciendis distinctio et rerum, in sapiente ipsa? Incidunt, perspiciatis praesentium facere iure dolores unde distinctio minima fugiat sit! Aut?
+    </div>
+    
   );
+  
 };
 
 export default TasksList;
