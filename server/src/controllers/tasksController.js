@@ -17,7 +17,7 @@ export const createTask = async (req, res, next) => {
 
 export const getAllTasks = async (req, res, next) => {
   try {
-    const allTasks = await pool.query("SELECT * FROM task");
+    const allTasks = await pool.query("SELECT * FROM task order by id");
     res.json(allTasks.rows);
   } catch (error) {
     console.log(error);
