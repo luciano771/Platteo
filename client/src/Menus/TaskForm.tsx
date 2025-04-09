@@ -1,5 +1,6 @@
 import React, { useEffect, useState, ChangeEvent, FormEvent } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import Button from "../components/Button";
 
 type Task = {
   title: string;
@@ -90,22 +91,10 @@ const TaskForm: React.FC = () => {
           value={task.description}
         />
         <div className="flex justify-between">
-          <button
-            type={"submit" as "submit"}
-            disabled={!task.title || !task.description}
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-          >
-            {loading ? "Cargando..." : "Guardar"}
-          </button>
-
+          <Button handleMenu={() => handleDelete(params.id!)} texto={loading ? "Cargando..." : "Guardar"} /> 
+          
           {params.id && (
-            <button
-            type={"button" as "button"}
-              className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded disabled:opacity-50"
-              onClick={() => handleDelete(params.id!)}
-            >
-              Eliminar
-            </button>
+            <Button handleMenu={() => handleDelete(params.id!)} texto="Eliminar" /> 
           )}
         </div>
       </form>

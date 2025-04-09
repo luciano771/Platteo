@@ -1,9 +1,9 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import AppLayout from "./components/navigation/AppLayout";
+import AppLayout from "./navigation/AppLayout";
 
-import TaskForm from "./components/Menus/TaskForm";
-import TasksList from "./components/Menus/TasksList";
-import Dashboard from "./components/Dashboard/Dashboard";
+import TaskForm from "./Menus/TaskForm";
+import TasksList from "./Menus/TasksList";
+import Dashboard from "./Dashboard/Dashboard";
 
 const App: React.FC = () => {
   return (
