@@ -26,6 +26,8 @@
     "morgan": "^1.10.0",
     "node-fetch": "^3.3.2",
     "openai": "^4.20.1",
+    "passport": "^0.7.0",
+    "passport-google-oauth": "^2.0.0",
     "pg": "^8.14.1",
     "react-router-dom": "^7.4.1"
   }
